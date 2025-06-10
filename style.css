@@ -566,3 +566,16 @@ button#playagain {
   margin-bottom: 16px;
   padding: 0 12px;
 }
+.header-actions button {
+  font-size: 24px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #dccfcf;
+  border: none;
+}
+
+.header-actions button:hover {
+  color: white;
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
