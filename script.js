@@ -4,7 +4,7 @@ let currentAttempt = 0;
 let gameOver = false;
 let words = [];
 let candidates = [];
-let stats = { played: 0, won: 0, streak: 0, maxStreak: 0, distribution: [0, 0, 0, 0, 0, 0] };
+let stats = { played: 0, won: 0, streak: 0, maxStreak: 0, distribution: [0, 0, 0, 0, 0, 0], gameHistory: [] };
 
 // Answer words (lewd words only)
 const ANSWER_WORDS = [  "boner", "felch", "pussy", "taint", "semen", "dildo", "farts", "chode", "minge", "gonad", "twats", "spunk", "queef", "prick", "titty", "craps", "balls", "cussy", "sperm", "bulge", "pants", "penis", "arses", "cunts", "knobs", "bussy", "fucks", "jizzy", "wanks", "turds", "shits", "asses", "cocks", "butts", "loads", "booty", "quims", "dicks", "boobs", "lewds", "cunty", "teste", "fanny", "damns", "frick", "shats", "toots", "poops", "shart", "hussy", "dongs", "shaft", "groin", "moobs", "grope", "loins", "horny", "naked", "erect", "pound", "nudes", "hiney", "breed", "cooch", "porno", "moans", "cummy", "labia", "pubes", "boned", "vulva", "clits", "busty", "feces", "teats", "fecal", "screw", "boink", "gooch", "moist", "spank", "whips", "ropes", "lubed", "kinky", "booby", "fucky", "cream", "blows", "snogs", "willy", "milfs", "dilfs", "gilfs", "pissy", "urine", "poopy", "fists", "veiny", "throb", "swing", "thick", "rimmy", "smash", "twerk", "enema", "filth", "choke", "mommy", "daddy", "munch", "handy", "pubic", "thigh", "flaps", "wenis", "hooch", "wench", "skeet", "booba", "potty", "nards", "gaped", "perky", "kegel", "bimbo", "cunny", "shags", "muffs", "himbo", "vixen", "grool", "twink", "cuffs", "cheek", "drool", "pervy", "lover", "doink", "butch", "bitch", "whore", "sluts", "thicc", "girth", "chuff", "fluff", "sound", "crank", "fugly", "tight", "loose", "slurp", "lusty", "lusts", "soapy", "cucks", "skank", "stank", "freak", "gushy", "strip", "tease", "queer", "trick", "sissy", "furry", "spicy", "plops", "vadge", "porks", "thong", "rough", "bound", "chain", "vinyl", "holes", "waxed", "bites", "licks", "plugs", "hairy", "bushy", "bears", "slaps", "latex", "caged", "cages", "panty", "flash", "bulls", "curvy", "spits", "milks", "milky", "doggy", "brats", "nasty", "dirty", "frots", "funky", "messy", "mucky"
@@ -548,9 +548,28 @@ function checkWord() {
             stats.streak++;
             stats.maxStreak = Math.max(stats.maxStreak, stats.streak);
             stats.distribution[currentAttempt]++;
+            
+            // Add to game history
+            stats.gameHistory.unshift({
+              word: window.targetWord,
+              attempts: currentAttempt + 1,
+              won: true,
+              date: new Date().toLocaleDateString()
+            });
+            
+            // Keep only last 20 games
+            if (stats.gameHistory.length > 20) {
+              stats.gameHistory = stats.gameHistory.slice(0, 20);
+            }
+            
             saveStats();
 
             showToast('Excellent!');
+            
+            // Show stats after a brief delay
+            setTimeout(() => {
+              showStats();
+            }, 1500);
           } else if (currentAttempt === 5) {
             // Lose
             gameOver = true;
@@ -560,9 +579,28 @@ function checkWord() {
             // Update stats
             stats.played++;
             stats.streak = 0;
+            
+            // Add to game history
+            stats.gameHistory.unshift({
+              word: window.targetWord,
+              attempts: 6,
+              won: false,
+              date: new Date().toLocaleDateString()
+            });
+            
+            // Keep only last 20 games
+            if (stats.gameHistory.length > 20) {
+              stats.gameHistory = stats.gameHistory.slice(0, 20);
+            }
+            
             saveStats();
 
             showToast(`The word was ${window.targetWord}`);
+            
+            // Show stats after a brief delay
+            setTimeout(() => {
+              showStats();
+            }, 1500);
           } else {
             currentAttempt++;
             currentWord = [];
@@ -658,6 +696,18 @@ function showStats() {
         </div>
       `).join('')}
     </div>
+    ${stats.gameHistory && stats.gameHistory.length > 0 ? `
+      <div class="game-history">
+        <div class="history-title">Recent Games</div>
+        ${stats.gameHistory.slice(0, 10).map(game => `
+          <div class="history-item">
+            <span class="history-word">${game.word}</span>
+            <span class="history-attempts ${game.won ? 'won' : 'lost'}">${game.won ? game.attempts + '/6' : 'X/6'}</span>
+            <span class="history-date">${game.date}</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
     <button class="share-button" onclick="shareResults()">
       <span>Share</span>
       <span>📋</span>
@@ -699,6 +749,12 @@ function hideModal() {
 }
 
 function showOverlay(type) {
+  // Hide any existing overlays first
+  document.querySelectorAll('.howtoplay, .settings').forEach(el => {
+    el.classList.remove('show');
+  });
+  
+  // Show the requested overlay
   document.querySelector('.overlay').classList.add('show');
   document.querySelector(`.${type}`).classList.add('show');
 }
