@@ -409,6 +409,67 @@ button#playagain {
   font-size: 14px;
 }
 
+.game-history {
+  width: 100%;
+  margin: 20px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.history-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #3a3a3c;
+}
+
+.history-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  padding: 8px 12px;
+  align-items: center;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 12px;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-word {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.history-attempts {
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-align: center;
+  min-width: 40px;
+}
+
+.history-attempts.won {
+  background: #538d4e;
+  color: white;
+}
+
+.history-attempts.lost {
+  background: #3a3a3c;
+  color: #d7dadc;
+}
+
+.history-date {
+  color: #888;
+  font-size: 11px;
+}
+
 .share-button {
   display: flex;
   justify-content: space-between;
