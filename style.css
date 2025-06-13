@@ -136,7 +136,7 @@ button {
 .word:nth-child(5):not(.attempted) .letter {
   background-color: black;
   border-color: #00008b;
-  color: #00008b;
+  color: #0000a4;
 }
 
 .word:nth-child(6):not(.attempted) .letter {
