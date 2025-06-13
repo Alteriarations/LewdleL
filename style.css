@@ -4,7 +4,8 @@ body {
   align-items: center;
   margin: 0;
   width: 100vw;
-  background: #450000;
+  background: black;
+  );
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
   color: #dccfcf;
   overflow: auto;
@@ -108,6 +109,41 @@ button {
   align-items: center;
 }
 
+.word:nth-child(1):not(.attempted) .letter {
+  background-color: black;
+  border-color: #8b0000;
+  color: #8b0000;
+}
+
+.word:nth-child(2):not(.attempted) .letter {
+  background-color: black;
+  border-color: #cc5500;
+  color: #cc5500;
+}
+
+.word:nth-child(3):not(.attempted) .letter {
+  background-color: black;
+  border-color: #b8860b;
+  color: #b8860b;
+}
+
+.word:nth-child(4):not(.attempted) .letter {
+  background-color: black;
+  border-color: #006400;
+  color: #006400;
+}
+
+.word:nth-child(5):not(.attempted) .letter {
+  background-color: black;
+  border-color: #00008b;
+  color: #00008b;
+}
+
+.word:nth-child(6):not(.attempted) .letter {
+  background-color: black;
+  border-color: #800080;
+  color: #800080;
+}
 .word {
   display: flex;
   margin-top: 5px;
@@ -176,7 +212,7 @@ button {
   min-width: 44px;
   margin: 2px;
   color: #d7dadc;
-  background: #717374;
+  background: #333333;
   border-radius: 4px;
   transition: background 0.1s ease-in;
 }
@@ -565,17 +601,4 @@ button#playagain {
   align-items: center;
   margin-bottom: 16px;
   padding: 0 12px;
-}
-.header-actions button {
-  font-size: 24px;
-  padding: 8px 12px;
-  background: transparent;
-  color: #dccfcf;
-  border: none;
-}
-
-.header-actions button:hover {
-  color: white;
-  transform: scale(1.1);
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
 }
